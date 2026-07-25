@@ -1,4 +1,4 @@
-import pdf from "pdf-parse";
+import { extractText } from "unpdf";
 import mammoth from "mammoth";
 
 export async function POST(request) {
@@ -18,8 +18,8 @@ export async function POST(request) {
     let extractedText = "";
 
     if (filename.toLowerCase().endsWith(".pdf") || type === "application/pdf") {
-      const data = await pdf(buffer);
-      extractedText = data.text || "";
+      const { text } = await extractText(buffer);
+      extractedText = Array.isArray(text) ? text.join("\n\n") : (text || "");
     } else if (
       filename.toLowerCase().endsWith(".docx") ||
       type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
