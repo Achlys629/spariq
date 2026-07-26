@@ -471,8 +471,8 @@ export default function Home() {
               <span className="text-base sm:text-xl font-black tracking-tight text-white block leading-none">
                 SparIQ
               </span>
-              <span className="text-[8px] sm:text-[10px] font-mono uppercase text-purple-300 tracking-widest">
-                AI Simulation Lab
+              <span className="text-[8px] sm:text-[10px] font-mono uppercase text-purple-300 tracking-widest font-semibold">
+                Adversarial AI Sparring
               </span>
             </div>
           </div>
@@ -848,12 +848,78 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-xs text-purple-200/70 border-t border-white/15 pt-3 sm:pt-4 gap-2 sm:gap-3">
-          <p>© SparIQ Engine. High-pressure AI simulation lab.</p>
-          <div className="flex items-center gap-2 font-mono text-purple-300">
-            <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
-            <span>SYSTEM READY</span>
+        {/* ================= STANDARD SYSTEM FOOTER ================= */}
+        <footer className="mt-12 pt-8 pb-6 border-t border-white/15 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 text-xs text-purple-200/70">
+            
+            {/* Brand Info Column */}
+            <div className="md:col-span-5 space-y-4">
+              <div className="flex items-center gap-2.5">
+                <img
+                  src="/logo/logo.png"
+                  alt="SparIQ Logo"
+                  className="h-7 w-7 object-contain drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
+                />
+                <span className="text-base font-black tracking-tight text-white">SparIQ</span>
+                <span className="text-[9px] font-mono text-purple-300 px-2 py-0.5 rounded-full border border-purple-400/30 bg-purple-500/10">v2.0 PRO</span>
+              </div>
+              <p className="text-purple-100/70 text-xs leading-relaxed max-w-sm">
+                High-pressure AI sparring partner. Practice critical conversations against realistic AI adversaries that challenge your assumptions, not ones that validate you.
+              </p>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/10 text-[10px] font-mono text-emerald-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
+                <span>ALL SYSTEMS OPERATIONAL</span>
+              </div>
+            </div>
+
+            {/* Navigation & Scenarios Columns */}
+            <div className="md:col-span-7 grid grid-cols-2 gap-8">
+              
+              {/* Scenarios */}
+              <div className="space-y-2.5">
+                <h4 className="text-[10px] font-mono uppercase tracking-widest text-purple-300 font-bold">
+                  Simulation Modes
+                </h4>
+                <ul className="space-y-1.5 text-purple-100/70">
+                  <li><a href="#scenarios" className="hover:text-white transition-colors">Corporate Interview</a></li>
+                  <li><a href="#scenarios" className="hover:text-white transition-colors">Academic Defense</a></li>
+                  <li><a href="#scenarios" className="hover:text-white transition-colors">Executive Dealmaking</a></li>
+                  <li><a href="#scenarios" className="hover:text-white transition-colors">Difficult Conversation</a></li>
+                  <li><a href="#scenarios" className="hover:text-white transition-colors">Startup Pitch</a></li>
+                  <li><a href="#scenarios" className="hover:text-white transition-colors">Debate & Persuasion</a></li>
+                </ul>
+              </div>
+
+              {/* Platform */}
+              <div className="space-y-2.5">
+                <h4 className="text-[10px] font-mono uppercase tracking-widest text-purple-300 font-bold">
+                  Platform & Features
+                </h4>
+                <ul className="space-y-1.5 text-purple-100/70">
+                  <li><a href="#features" className="hover:text-white transition-colors">Voice & Urdu Speech</a></li>
+                  <li><a href="#features" className="hover:text-white transition-colors">Context Upload (PDF)</a></li>
+                  <li><a href="#features" className="hover:text-white transition-colors">Real-Time Debrief</a></li>
+                  <li>
+                    <button onClick={() => router.push("/history")} className="hover:text-white transition-colors text-left flex items-center gap-1">
+                      Session History <ArrowUpRight className="h-3 w-3 text-purple-400" />
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Bottom copyright bar */}
+          <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[10px] text-purple-200/50 gap-2">
+            <p>© {new Date().getFullYear()} SparIQ Engine. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              <span className="hover:text-purple-200 cursor-pointer">Privacy Policy</span>
+              <span>•</span>
+              <span className="hover:text-purple-200 cursor-pointer">Terms of Service</span>
+              <span>•</span>
+              <span className="hover:text-purple-200 cursor-pointer">Security Protocol</span>
+            </div>
           </div>
         </footer>
       </div>
