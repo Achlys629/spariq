@@ -23,6 +23,9 @@ import {
     Sparkles,
     Terminal,
     History,
+    Rocket,
+    MessageCircleHeart,
+    Swords,
 } from "lucide-react";
 
 const SCENARIO_META = {
@@ -41,6 +44,14 @@ const SCENARIO_META = {
     difficult: {
         label: "Difficult Conversation",
         bg: "/images/bg-difficult.png",
+    },
+    pitch: {
+        label: "Startup Pitch",
+        bg: "/images/bg-pitch.png",
+    },
+    debate: {
+        label: "Debate & Persuasion",
+        bg: "/images/bg-debate.png",
     },
 };
 
@@ -930,6 +941,28 @@ export default function SessionPage() {
                     </div>
                 </div>
 
+                {/* Center AI Intensity & Audio Monitor */}
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full border border-white/15 bg-white/5 backdrop-blur-xl text-xs shadow-inner">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-purple-300/70">Intensity:</span>
+                    <span className={`font-mono text-[10px] font-bold uppercase px-2 py-0.5 rounded-full border ${
+                        difficulty === "hard"
+                            ? "bg-rose-500/20 text-rose-300 border-rose-400/40 shadow-[0_0_10px_rgba(244,63,94,0.3)]"
+                            : difficulty === "easy"
+                                ? "bg-emerald-500/20 text-emerald-300 border-emerald-400/40 shadow-[0_0_10px_rgba(52,211,153,0.3)]"
+                                : "bg-purple-500/20 text-purple-300 border-purple-400/40 shadow-[0_0_10px_rgba(168,85,247,0.3)]"
+                    }`}>
+                        {difficulty}
+                    </span>
+                    {(loading || voiceState === "recording") && (
+                        <div className="flex items-center gap-1 ml-1 text-purple-300">
+                            <span className="w-1 h-3 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: "0ms" }} />
+                            <span className="w-1 h-5 bg-fuchsia-400 rounded-full animate-pulse" style={{ animationDelay: "150ms" }} />
+                            <span className="w-1 h-4 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: "300ms" }} />
+                            <span className="w-1 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: "450ms" }} />
+                        </div>
+                    )}
+                </div>
+
                 <div className="flex items-center gap-2">
                     <button
                         onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -1060,16 +1093,46 @@ export default function SessionPage() {
                     {/* Chat Log Window - Completely transparent background */}
                     <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 relative z-10 custom-scrollbar">
                         {messages.length === 0 ? (
-                            <div className="h-full flex flex-col items-center justify-center text-center p-6 text-purple-100/60 space-y-3">
+                            <div className="h-full flex flex-col items-center justify-center text-center p-6 text-purple-100/60 space-y-4">
                                 <div className="p-4 rounded-2xl border border-purple-300/30 bg-purple-600/10 text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.1)] backdrop-blur-xl">
                                     <Sparkles className="h-8 w-8" />
                                 </div>
-                                <h3 className="text-base font-bold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-                                    Ready to Practice
-                                </h3>
-                                <p className="text-xs max-w-sm text-purple-100/70 leading-relaxed drop-shadow">
-                                    Send your opening statement or introduction to start the interactive AI trial.
-                                </p>
+                                <div>
+                                    <h3 className="text-base font-bold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+                                        Ready to Practice
+                                    </h3>
+                                    <p className="text-xs max-w-sm text-purple-100/70 leading-relaxed drop-shadow mt-1">
+                                        Send your opening statement or tap a quick prompt below to start.
+                                    </p>
+                                </div>
+
+                                {/* Quick-Start Prompts */}
+                                <div className="flex flex-wrap items-center justify-center gap-2 max-w-md pt-2">
+                                    {(
+                                        scenarioType === "interview"
+                                            ? ["I'm ready for the interview", "Hello, thanks for having me today", "Let's begin the interview"]
+                                            : scenarioType === "viva"
+                                                ? ["I'm ready to defend my thesis", "Good day, examiner. Let's start", "I am prepared for questioning"]
+                                                : scenarioType === "negotiation"
+                                                    ? ["Let's discuss the proposed deal terms", "Thanks for meeting. I'm ready to negotiate", "Let's review the agreement"]
+                                                    : scenarioType === "pitch"
+                                                        ? ["Let me walk you through our idea.", "Thanks for your time — here's our pitch.", "We're ready to present."]
+                                                        : scenarioType === "debate"
+                                                            ? ["I'll argue my position first.", "Let's begin the debate.", "Here's the position I'll be defending."]
+                                                            : ["I think we need to talk about what happened", "Can we discuss the issue directly?", "I want to address this situation calmly"]
+                                    ).map((promptText, i) => (
+                                        <button
+                                            key={i}
+                                            type="button"
+                                            onClick={() => {
+                                                setInput(promptText);
+                                            }}
+                                            className="text-xs px-3.5 py-1.5 rounded-full border border-purple-300/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-200 hover:text-white transition-all hover:scale-105 active:scale-95 backdrop-blur-xl hover:border-purple-300/60 shadow-[0_4px_15px_rgba(0,0,0,0.2)]"
+                                        >
+                                            "{promptText}"
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         ) : (
                             messages.map((msg, index) => {

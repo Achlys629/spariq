@@ -11,6 +11,8 @@ import {
     GraduationCap,
     Handshake,
     Rocket,
+    MessageCircleHeart,
+    Swords,
     Clock,
     ChevronRight,
     Loader2,
@@ -24,7 +26,9 @@ const SCENARIO_META = {
     interview: { label: "Corporate Interview", Icon: BriefcaseBusiness, color: "text-blue-400" },
     viva: { label: "Academic Defense", Icon: GraduationCap, color: "text-violet-400" },
     negotiation: { label: "Executive Dealmaking", Icon: Handshake, color: "text-emerald-400" },
-    difficult: { label: "Difficult Conversation", Icon: Rocket, color: "text-amber-400" },
+    difficult: { label: "Difficult Conversation", Icon: MessageCircleHeart, color: "text-amber-400" },
+    pitch: { label: "Startup Pitch", Icon: Rocket, color: "text-rose-400" },
+    debate: { label: "Debate & Persuasion", Icon: Swords, color: "text-cyan-400" },
 };
 
 function ScoreBar({ label, value }) {
