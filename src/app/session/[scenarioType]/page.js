@@ -598,6 +598,7 @@ export default function SessionPage() {
                     personalityDescription,
                     uploadedContext,
                     difficulty,
+                    selectedLanguage: voiceLanguage,
                 }),
             });
 
@@ -1117,16 +1118,16 @@ export default function SessionPage() {
 
                         <div className="flex items-center gap-2">
 
-                            {/* Voice Language Switcher */}
+                            {/* Voice & AI Language Switcher */}
                             <button
                                 type="button"
                                 onClick={() =>
                                     setVoiceLanguage((prev) => (prev === "en" ? "ur" : "en"))
                                 }
-                                title="Toggle speech language (EN / UR)"
-                                className="px-2.5 py-2 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-[10px] font-mono text-purple-300 font-bold uppercase transition-all shrink-0 hover:scale-105 active:scale-95 backdrop-blur-xl hover:border-purple-300/60"
+                                title="Toggle AI & Voice language (English / Urdu)"
+                                className="px-3 py-2 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-xs font-semibold text-purple-300 transition-all shrink-0 hover:scale-105 active:scale-95 backdrop-blur-xl hover:border-purple-300/60"
                             >
-                                {voiceLanguage.toUpperCase()}
+                                {voiceLanguage === "en" ? "English" : "Urdu"}
                             </button>
 
                             {/* Voice Record Mic Toggle Button */}

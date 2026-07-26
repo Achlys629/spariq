@@ -220,9 +220,11 @@ export default function HistoryPage() {
                         className="flex items-center gap-3 cursor-pointer"
                         onClick={() => router.push("/")}
                     >
-                        <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-purple-500 via-fuchsia-500 to-pink-400 flex items-center justify-center shadow-[0_0_25px_rgba(216,180,254,0.6)] border border-white/40">
-                            <Sparkles className="h-4 w-4 text-white" />
-                        </div>
+                        <img
+                            src="/logo/logo.png"
+                            alt="SparIQ Logo"
+                            className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(192,132,252,0.8)] transition-transform hover:scale-105"
+                        />
                         <span className="text-lg font-black tracking-tight text-white">SparIQ</span>
                     </div>
                     <button

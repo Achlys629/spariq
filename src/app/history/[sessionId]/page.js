@@ -168,9 +168,11 @@ export default function SessionDetailPage() {
             <nav className="sticky top-0 z-40 w-full border-b border-white/20 bg-white/[0.03] backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
                 <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push("/")}>
-                        <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-purple-500 via-fuchsia-500 to-pink-400 flex items-center justify-center shadow-[0_0_25px_rgba(216,180,254,0.6)] border border-white/40">
-                            <Sparkles className="h-4 w-4 text-white" />
-                        </div>
+                        <img
+                            src="/logo/logo.png"
+                            alt="SparIQ Logo"
+                            className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(192,132,252,0.8)] transition-transform hover:scale-105"
+                        />
                         <span className="text-lg font-black tracking-tight text-white">SparIQ</span>
                     </div>
                     <button

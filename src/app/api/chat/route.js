@@ -34,7 +34,7 @@ Your job is to represent this counterpart's emotions, feedback, or conflict, cha
 - Keep responses concise — 2-4 sentences.`,
 };
 
-function buildSystemPrompt(scenarioType, personalityDescription, uploadedContext) {
+function buildSystemPrompt(scenarioType, personalityDescription, uploadedContext, selectedLanguage = "en") {
     let basePrompt = SCENARIO_PROMPTS[scenarioType];
     if (!basePrompt) return null;
 
@@ -50,16 +50,17 @@ function buildSystemPrompt(scenarioType, personalityDescription, uploadedContext
     basePrompt = `${basePrompt}
 
 Language and tone style:
-- Match the user's own language and script exactly. If the user writes in Roman Urdu (Urdu words spelled in English/Latin letters), respond in Roman Urdu the same way. If the user writes in Urdu script, respond in Urdu script. If the user writes in a natural mix of Urdu and English (code-switched, as is common in casual conversation), respond in that same mixed style. If the user writes in English, respond in English. Always mirror the user's actual language choice rather than defaulting to a different one.
-- Match the user's informality or casualness of grammar and phrasing naturally — if they write casually or with imperfect grammar, respond in a natural, non-robotic way rather than switching to overly formal language.
-- However, always remain professional and in-character according to your role. Do not become rude, insulting, or hostile even if the user's tone is casual, blunt, dismissive, or informal toward you. Realistic pressure comes from challenging questions and high standards, not from rudeness — a real interviewer, examiner, negotiator, or counterpart stays professional regardless of the other person's tone.`;
+- The user has explicitly selected a language mode for this session: ${selectedLanguage === "en" ? "English" : "Urdu"}.
+- If English mode is selected: always reply in English only, regardless of whether the user's message includes some Urdu or Roman Urdu words. Do not switch into Urdu or Roman Urdu even if the user's personality description or uploaded context contains Urdu text — those are background information only.
+- If Urdu mode is selected: reply naturally in the same way the user is writing — if they write in Roman Urdu, reply in Roman Urdu; if they write in Urdu script, reply in Urdu script; if they write in a natural code-switched mix of Urdu and English, reply in that same mixed style; if they write in English while in Urdu mode, you may still reply in English for that specific message, but default back to Urdu/mixed style for subsequent messages unless they continue in English.
+- Match the user's informality or casualness of grammar and phrasing naturally, but always remain professional and in-character according to your role. Do not become rude, insulting, or hostile even if the user's tone is casual, blunt, dismissive, or informal toward you.`;
 
     return basePrompt;
 }
 
 export async function POST(request) {
   try {
-    const { message, scenarioType, conversationHistory, personalityDescription, uploadedContext } = await request.json();
+    const { message, scenarioType, conversationHistory, personalityDescription, uploadedContext, selectedLanguage } = await request.json();
 
     if (!message || !scenarioType) {
       return Response.json(
@@ -68,7 +69,7 @@ export async function POST(request) {
       );
     }
 
-    const systemPrompt = buildSystemPrompt(scenarioType, personalityDescription, uploadedContext);
+    const systemPrompt = buildSystemPrompt(scenarioType, personalityDescription, uploadedContext, selectedLanguage);
     if (!systemPrompt) {
       return Response.json(
         { error: `Unknown scenarioType: ${scenarioType}` },
