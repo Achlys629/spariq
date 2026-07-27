@@ -122,28 +122,25 @@ function SessionCard({ session, index, onClick }) {
 export default function HistoryPage() {
     const router = useRouter();
     const [sessions, setSessions] = useState([]);
-    const [anonId] = useState(() => {
-        if (typeof window === "undefined") return null;
-        return getAnonId();
-    });
 
-    const [loading, setLoading] = useState(() => {
-        if (typeof window === "undefined") return true;
-        const id = localStorage.getItem("sparIQ-anon-id");
-        return id ? true : false;
-    });
-    const [error, setError] = useState(() => {
-        if (typeof window === "undefined") return null;
-        const existing = localStorage.getItem("sparIQ-anon-id");
-        return existing ? null : "No anonymous ID found in this browser.";
-    });
+    // anonId, loading and error all initialize to SSR-safe defaults (no localStorage in initializers)
+    // so the first render is identical on server and client — preventing hydration mismatch.
+    const [anonId, setAnonId] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    // After mount: read the real anon ID from localStorage and kick off the session fetch.
     useEffect(() => {
-        if (!anonId) {
+        const id = getAnonId();           // reads/creates localStorage entry client-only
+        setAnonId(id);
+
+        if (!id) {
+            setError("No anonymous ID found in this browser.");
+            setLoading(false);
             return;
         }
 
-        fetch(`/api/sessions?anonUserId=${encodeURIComponent(anonId)}`)
+        fetch(`/api/sessions?anonUserId=${encodeURIComponent(id)}`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.error) {
@@ -156,7 +153,7 @@ export default function HistoryPage() {
                 setError("Failed to load sessions. Please try again.");
             })
             .finally(() => setLoading(false));
-    }, [anonId]);
+    }, []);
 
     return (
         <div className="relative min-h-screen bg-[#05000a] text-purple-50 font-sans antialiased overflow-hidden selection:bg-purple-500/30 selection:text-purple-200">

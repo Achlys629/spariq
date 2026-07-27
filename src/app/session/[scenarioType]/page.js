@@ -870,7 +870,7 @@ export default function SessionPage() {
     );
 
     return (
-        <div className="relative h-screen w-screen bg-[#05000a] text-purple-50 font-sans antialiased overflow-hidden flex flex-col selection:bg-purple-500/30 selection:text-purple-200">
+        <div className="fixed inset-0 h-[100dvh] w-full bg-[#05000a] text-purple-50 font-sans antialiased overflow-hidden flex flex-col selection:bg-purple-500/30 selection:text-purple-200">
 
             {/* HIGH-VISIBILITY GLOWING BORDER SPHERES */}
             <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
@@ -929,7 +929,7 @@ export default function SessionPage() {
             </div>
 
             {/* Header Navbar */}
-            <header className="relative z-20 shrink-0 border-b border-white/20 bg-white/[0.03] backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-4 py-3 flex items-center justify-between">
+            <header className="relative z-20 shrink-0 border-b border-white/20 bg-white/[0.03] backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => window.location.href = "/"}
@@ -990,7 +990,7 @@ export default function SessionPage() {
             </header>
 
             {/* Main Area: Sidebar + Chat Box */}
-            <div className="relative z-10 flex-1 min-h-0 flex overflow-hidden p-3 md:p-6 gap-4 max-w-7xl mx-auto w-full">
+            <div className="relative z-10 flex-1 min-h-0 flex overflow-hidden p-2 sm:p-3 md:p-6 gap-4 max-w-7xl mx-auto w-full">
 
                 {/* Collapsible Sidebar (Desktop) - Made more transparent */}
                 <motion.aside
@@ -1194,9 +1194,10 @@ export default function SessionPage() {
                                     setVoiceLanguage((prev) => (prev === "en" ? "ur" : "en"))
                                 }
                                 title="Toggle AI & Voice language (English / Urdu)"
-                                className="px-3 py-2 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-xs font-semibold text-purple-300 transition-all shrink-0 hover:scale-105 active:scale-95 backdrop-blur-xl hover:border-purple-300/60"
+                                className="px-2.5 sm:px-3 py-2 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-xs font-semibold text-purple-300 transition-all shrink-0 hover:scale-105 active:scale-95 backdrop-blur-xl hover:border-purple-300/60"
                             >
-                                {voiceLanguage === "en" ? "English" : "Urdu"}
+                                <span className="sm:hidden">{voiceLanguage === "en" ? "EN" : "UR"}</span>
+                                <span className="hidden sm:inline">{voiceLanguage === "en" ? "English" : "Urdu"}</span>
                             </button>
 
                             {/* Voice Record Mic Toggle Button */}
