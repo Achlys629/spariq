@@ -58,6 +58,21 @@ function ScoreRing({ value }) {
 
 // ─── Shared Background ────────────────────────────────────────────────────────
 function PageBackground() {
+    const [particles, setParticles] = useState([]);
+    useEffect(() => {
+        setParticles(
+            Array.from({ length: 30 }).map((_, i) => ({
+                id: i,
+                duration: 2.5 + Math.random() * 3,
+                delay: Math.random() * 2,
+                width: 1.5 + Math.random() * 2.5,
+                height: 1.5 + Math.random() * 2.5,
+                left: Math.random() * 100,
+                top: Math.random() * 100,
+            }))
+        );
+    }, []);
+
     return (
         <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
             {/* Top Right Sphere */}
@@ -96,7 +111,7 @@ function PageBackground() {
             <div className="absolute inset-0 bg-[#05000a]/30 backdrop-blur-[1px]" />
 
             {/* Floating sparkle particles */}
-            {PARTICLES.map((p) => (
+            {particles.map((p) => (
                 <motion.div
                     key={p.id}
                     animate={{ opacity: [0.1, 0.8, 0.1], scale: [0.8, 1.4, 0.8] }}
@@ -119,7 +134,7 @@ function PageBackground() {
 export default function SessionDetailPage() {
     const router = useRouter();
     const params = useParams();
-    const sessionId = params.sessionId;
+    const sessionId = params?.sessionId;
 
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(true);
