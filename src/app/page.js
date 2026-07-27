@@ -472,7 +472,7 @@ export default function Home() {
                 SparIQ
               </span>
               <span className="text-[8px] sm:text-[10px] font-mono uppercase text-purple-300 tracking-widest font-semibold">
-                Adversarial AI Sparring
+                BUILT TO CHALLENGE YOU
               </span>
             </div>
           </div>
@@ -506,7 +506,7 @@ export default function Home() {
       </nav>
 
       {/* ================= MAIN CONTENT ================= */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-4 sm:py-6 md:py-10 space-y-6 sm:space-y-8">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 md:py-16 space-y-12 sm:space-y-16 md:space-y-24">
 
         {/* ================= HERO CAROUSEL CONTAINER ================= */}
         <section className="relative rounded-[30px] sm:rounded-[60px] border border-white/25 bg-gradient-to-b from-white/[0.12] to-white/[0.03] backdrop-blur-3xl p-4 sm:p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden">
@@ -602,7 +602,8 @@ export default function Home() {
                 />
               ))}
             </div>
-            <div className="flex gap-1.5 sm:gap-2">
+            {/* Arrow buttons: hidden on mobile where touch swipe is natural, visible on desktop */}
+            <div className="hidden md:flex gap-1.5 sm:gap-2">
               <button
                 onClick={prevSlide}
                 className="p-1 sm:p-1.5 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 text-purple-100 transition-all backdrop-blur-xl hover:scale-110 active:scale-95 hover:border-purple-300/60"
@@ -620,14 +621,14 @@ export default function Home() {
         </section>
 
         {/* ================= SCENARIOS CAROUSEL ================= */}
-        <section id="scenarios" className="space-y-3 sm:space-y-4">
+        <section id="scenarios" className="space-y-4 sm:space-y-6 pt-2 sm:pt-4">
           <div className="flex items-center justify-between">
             <h2 className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-purple-300 flex items-center gap-1.5 sm:gap-2">
               <Terminal className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               Choose a Scenario to Begin
             </h2>
-            {/* Arrow buttons in header row */}
-            <div className="flex gap-1.5 sm:gap-2">
+            {/* Arrow buttons in header row: hidden on mobile where touch swipe is natural, visible on desktop */}
+            <div className="hidden md:flex gap-1.5 sm:gap-2">
               <button
                 onClick={prevScenarioPage}
                 className="p-1.5 sm:p-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 text-purple-100 transition-all backdrop-blur-xl hover:scale-110 active:scale-95 hover:border-purple-300/60 shadow-[0_4px_15px_rgba(0,0,0,0.3)]"
@@ -733,7 +734,7 @@ export default function Home() {
         </section>
 
         {/* ================= FEATURES SECTION ================= */}
-        <section id="features" className="space-y-6 pt-6 scroll-mt-24">
+        <section id="features" className="space-y-6 pt-8 sm:pt-14 md:pt-20 scroll-mt-28">
           <div className="flex items-center justify-between border-b border-white/15 pb-3">
             <h2 className="text-xs sm:text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2">
               <Sparkles className="h-3.5 w-3.5 text-purple-300" />
@@ -779,7 +780,7 @@ export default function Home() {
         </section>
 
         {/* ================= HOW IT WORKS SECTION (ALTERNATING TIMELINE) ================= */}
-        <section id="about" className="space-y-6 pt-6 scroll-mt-24">
+        <section id="about" className="space-y-6 pt-8 sm:pt-14 md:pt-20 scroll-mt-28">
           <div className="flex items-center justify-between border-b border-white/15 pb-3">
             <h2 className="text-xs sm:text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2">
               <Zap className="h-3.5 w-3.5 text-purple-300" />
@@ -793,7 +794,7 @@ export default function Home() {
             {/* Vertical Connecting Line (Desktop: Center | Mobile: Left-aligned) */}
             <div className="absolute left-5 md:left-1/2 top-4 bottom-4 w-[2px] -translate-x-1/2 bg-gradient-to-b from-purple-500 via-fuchsia-500 to-indigo-500 shadow-[0_0_15px_rgba(216,180,254,0.6)]" />
 
-            <div className="space-y-8 md:space-y-12">
+            <div className="space-y-10 md:space-y-16">
               {HOW_IT_WORKS.map((stepItem, idx) => {
                 const isEven = idx % 2 === 1; // Step 2 & 4 -> Right on desktop
                 return (
@@ -849,7 +850,7 @@ export default function Home() {
         </section>
 
         {/* ================= STANDARD SYSTEM FOOTER ================= */}
-        <footer className="mt-12 pt-8 pb-6 border-t border-white/15 space-y-8">
+        <footer className="mt-16 sm:mt-24 md:mt-32 pt-10 sm:pt-12 pb-6 border-t border-white/15 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 text-xs text-purple-200/70">
             
             {/* Brand Info Column */}

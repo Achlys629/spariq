@@ -55,27 +55,8 @@ const SCENARIO_META = {
     },
 };
 
-// Pre-computed stable background particles
-const BACKGROUND_PARTICLES = Array.from({ length: 30 }).map((_, i) => ({
-    id: i,
-    duration: 2.5 + Math.random() * 3,
-    delay: Math.random() * 2,
-    width: 1.5 + Math.random() * 2.5,
-    height: 1.5 + Math.random() * 2.5,
-    left: Math.random() * 100,
-    top: Math.random() * 100,
-}));
 
-// Pre-computed stable bar particles
-const BAR_PARTICLES = Array.from({ length: 8 }).map((_, i) => ({
-    id: i,
-    duration: 2 + Math.random() * 3,
-    delay: Math.random() * 1.5,
-    width: 1.2 + Math.random() * 1.8,
-    height: 1.2 + Math.random() * 1.8,
-    left: Math.random() * 100,
-    top: Math.random() * 100,
-}));
+
 
 // ─── Score Ring ───────────────────────────────────────────────────────────────
 function ScoreRing({ value }) {
@@ -341,48 +322,73 @@ export default function SessionPage() {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
 
+    // Client-side generated bar particles (prevents SSR Math.random hydration mismatch)
+    const [barParticles, setBarParticles] = useState([]);
+    useEffect(() => {
+        setBarParticles(
+            Array.from({ length: 8 }).map((_, i) => ({
+                id: i,
+                duration: 2 + Math.random() * 3,
+                delay: Math.random() * 1.5,
+                width: 1.2 + Math.random() * 1.8,
+                height: 1.2 + Math.random() * 1.8,
+                left: Math.random() * 100,
+                top: Math.random() * 100,
+            }))
+        );
+    }, []);
+
     // Dynamic settings states
-    const [personalityDescription, setPersonalityDescription] = useState(() => {
-        if (typeof window === "undefined") return "";
-        try {
-            const saved = sessionStorage.getItem(`sparIQ-session-${scenarioType}`);
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                return parsed.personalityDescription || "";
-            }
-        } catch {
-            // ignore
-        }
-        return "";
-    });
+    const [personalityDescription, setPersonalityDescription] = useState("");
+    const [difficulty, setDifficulty] = useState("medium");
+    const [uploadedContext, setUploadedContext] = useState("");
 
-    const [difficulty, setDifficulty] = useState(() => {
-        if (typeof window === "undefined") return "medium";
+    // Restore saved settings from sessionStorage after initial mount to prevent SSR hydration mismatch
+    useEffect(() => {
+        if (typeof window === "undefined" || !scenarioType) return;
         try {
             const saved = sessionStorage.getItem(`sparIQ-session-${scenarioType}`);
             if (saved) {
                 const parsed = JSON.parse(saved);
-                return parsed.difficulty || "medium";
+                if (parsed.personalityDescription !== undefined) {
+                    setPersonalityDescription(parsed.personalityDescription);
+                }
+                if (parsed.difficulty !== undefined) {
+                    setDifficulty(parsed.difficulty);
+                }
+                if (parsed.uploadedContext !== undefined) {
+                    setUploadedContext(parsed.uploadedContext);
+                }
             }
         } catch {
             // ignore
         }
-        return "medium";
-    });
+    }, [scenarioType]);
 
-    const [uploadedContext, setUploadedContext] = useState(() => {
-        if (typeof window === "undefined") return "";
+    // Guard ref: skip the write effect on first render so it never overwrites what the landing page
+    // just saved before the restore effect has had a chance to run.
+    const isFirstRender = useRef(true);
+
+    // Persist sidebar settings changes to sessionStorage so browser refresh restores them consistently
+    useEffect(() => {
+        if (typeof window === "undefined" || !scenarioType) return;
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return; // restore effect runs first — don't overwrite with stale defaults
+        }
         try {
-            const saved = sessionStorage.getItem(`sparIQ-session-${scenarioType}`);
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                return parsed.uploadedContext || "";
-            }
+            sessionStorage.setItem(
+                `sparIQ-session-${scenarioType}`,
+                JSON.stringify({
+                    personalityDescription,
+                    difficulty,
+                    uploadedContext,
+                })
+            );
         } catch {
             // ignore
         }
-        return "";
-    });
+    }, [scenarioType, personalityDescription, difficulty, uploadedContext]);
 
     const [fileName, setFileName] = useState("");
     const [fileLoading, setFileLoading] = useState(false);
@@ -935,8 +941,8 @@ export default function SessionPage() {
                         <h1 className="text-sm font-bold bg-gradient-to-r from-white via-purple-200 to-indigo-300 bg-clip-text text-transparent flex items-center gap-2">
                             {meta.label}
                         </h1>
-                        <p className="text-[10px] text-purple-300 font-mono uppercase tracking-wider">
-                            SparIQ Adversary Simulation
+                        <p className="text-[10px] text-purple-300 font-mono uppercase tracking-wider font-semibold">
+                            BUILT TO CHALLENGE YOU
                         </p>
                     </div>
                 </div>
@@ -1066,7 +1072,7 @@ export default function SessionPage() {
 
                     {/* Inner Bar Ambient Particles - More subtle */}
                     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                        {BAR_PARTICLES.map((p) => (
+                        {barParticles.map((p) => (
                             <motion.div
                                 key={p.id}
                                 animate={{

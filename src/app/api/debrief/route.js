@@ -5,6 +5,8 @@ const SCENARIO_LABELS = {
     viva: "academic viva / oral exam",
     negotiation: "high-stakes business negotiation",
     difficult: "difficult personal or professional conversation",
+    pitch: "startup investor pitch",
+    debate: "structured debate",
 };
 
 function buildDebriefSystemPrompt(scenarioType) {
@@ -13,7 +15,7 @@ function buildDebriefSystemPrompt(scenarioType) {
 
 Your job is to give honest, specific, actionable feedback — not generic praise or hollow criticism.
 
-You MUST output ONLY a single valid JSON object. No preamble, no explanation, no markdown formatting, no code fences. Just the raw JSON.
+Respond with ONLY the JSON object. Do not include any preamble, explanation, markdown code fences, or text before or after the JSON. Your entire response must be valid, parseable JSON and nothing else.
 
 The JSON must follow this exact shape:
 {
@@ -31,6 +33,23 @@ Rules:
 - Score values must be integers between 1 and 10.
 - Justifications must be a single sentence that cites observable evidence from the transcript.
 - Do NOT output anything outside the JSON object. Any extra text will break the parser.`;
+}
+
+/**
+ * Strips markdown code fences and extracts the first {...} JSON block
+ * from a raw AI response, so parsing succeeds even if Claude adds
+ * minor surrounding text despite instructions.
+ */
+function extractJSON(rawText) {
+    let cleaned = rawText.trim();
+    // Remove markdown code fences (```json ... ``` or ``` ... ```)
+    cleaned = cleaned.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
+    // Extract the first complete {...} block in case there's a preamble or trailing text
+    const match = cleaned.match(/\{[\s\S]*\}/);
+    if (match) {
+        cleaned = match[0];
+    }
+    return cleaned;
 }
 
 export async function POST(request) {
@@ -93,17 +112,17 @@ export async function POST(request) {
             return Response.json({ error: "Empty response from Claude" }, { status: 500 });
         }
 
-        // Strip accidental markdown code fences before parsing
-        const cleaned = rawText
-            .replace(/^```(?:json)?\s*/i, "")
-            .replace(/\s*```$/i, "")
-            .trim();
+        // Clean and extract JSON — handles code fences, preamble, and trailing text
+        const cleanedText = extractJSON(rawText);
 
         let debrief;
         try {
-            debrief = JSON.parse(cleaned);
+            debrief = JSON.parse(cleanedText);
         } catch (parseErr) {
-            console.error("Failed to parse debrief JSON. Raw text was:", rawText);
+            // Log the raw unparsed response so we can see exactly what Claude returned
+            console.error("Debrief JSON parse failed.");
+            console.error("Cleaned text attempted:", cleanedText);
+            console.error("Raw AI response was:", rawText);
             return Response.json(
                 { error: "Failed to parse debrief response. Claude did not return valid JSON." },
                 { status: 500 }

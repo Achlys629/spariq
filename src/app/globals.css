@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #05000a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +12,68 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
+  background: #05000a;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ================= CUSTOM SLEEK PURPLE NEON SCROLLBAR ================= */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(5, 0, 10, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(192, 132, 252, 0.3);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(232, 121, 249, 0.7);
+  box-shadow: 0 0 12px rgba(232, 121, 249, 0.8);
+}
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192, 132, 252, 0.35) rgba(5, 0, 10, 0.6);
+}
+
+/* Utility class for modal, chat & textarea scrollable areas */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(216, 180, 254, 0.35);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(232, 121, 249, 0.75);
+}
+
+/* Completely hide scrollbars in textareas (like chat input) */
+textarea::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+textarea {
+  -ms-overflow-style: none !important;  /* IE/Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+

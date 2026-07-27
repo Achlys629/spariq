@@ -229,7 +229,12 @@ export default function HistoryPage() {
                             alt="SparIQ Logo"
                             className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(192,132,252,0.8)] transition-transform hover:scale-105"
                         />
-                        <span className="text-lg font-black tracking-tight text-white">SparIQ</span>
+                        <div>
+                            <span className="text-base sm:text-lg font-black tracking-tight text-white block leading-none">SparIQ</span>
+                            <span className="text-[8px] sm:text-[9px] font-mono uppercase text-purple-300 tracking-widest font-semibold">
+                                BUILT TO CHALLENGE YOU
+                            </span>
+                        </div>
                     </div>
                     <button
                         onClick={() => router.push("/")}

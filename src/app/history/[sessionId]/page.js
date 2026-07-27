@@ -30,16 +30,7 @@ const SCENARIO_META = {
     debate: { label: "Debate & Persuasion", Icon: Swords, color: "text-cyan-400" },
 };
 
-// Pre-computed stable background particles (no random during render)
-const PARTICLES = Array.from({ length: 30 }).map((_, i) => ({
-    id: i,
-    duration: 2.5 + Math.random() * 3,
-    delay: Math.random() * 2,
-    width: 1.5 + Math.random() * 2.5,
-    height: 1.5 + Math.random() * 2.5,
-    left: Math.random() * 100,
-    top: Math.random() * 100,
-}));
+
 
 // ─── Score Ring ───────────────────────────────────────────────────────────────
 function ScoreRing({ value }) {
@@ -177,7 +168,12 @@ export default function SessionDetailPage() {
                             alt="SparIQ Logo"
                             className="h-8 w-8 object-contain drop-shadow-[0_0_15px_rgba(192,132,252,0.8)] transition-transform hover:scale-105"
                         />
-                        <span className="text-lg font-black tracking-tight text-white">SparIQ</span>
+                        <div>
+                            <span className="text-base sm:text-lg font-black tracking-tight text-white block leading-none">SparIQ</span>
+                            <span className="text-[8px] sm:text-[9px] font-mono uppercase text-purple-300 tracking-widest font-semibold">
+                                BUILT TO CHALLENGE YOU
+                            </span>
+                        </div>
                     </div>
                     <button
                         onClick={() => router.push("/history")}

@@ -1,4 +1,3 @@
-```markdown
 # SparIQ
 
 **Practice Under Pressure. Perform With Confidence.**
@@ -145,11 +144,10 @@ The debrief is always written in clear English, regardless of what language the 
 
 ## Screenshots
 
-*(Add 3+ screenshots here from the live deployed app — e.g. the landing page, an active session, and a debrief screen.)*
-
 ![Landing page](./screenshots/landing.png)
 ![Active session](./screenshots/session.png)
 ![Debrief screen](./screenshots/debrief.png)
+![Session history](./screenshots/history.png)
 
 ## How to Run Locally
 
@@ -207,6 +205,3 @@ npm run build
 - AI voice output (text-to-speech) for AI responses
 - Multiplayer/group practice modes
 - Trend analytics across past sessions
-```
-
-**Reminder before you commit:** the screenshot lines near the bottom still point to placeholder filenames (`./screenshots/landing.png` etc.) — add a `screenshots` folder with your real images, or update those filenames to match whatever you actually save, otherwise they'll show as broken image links on GitHub.

@@ -13,12 +13,13 @@ export async function POST(request) {
     const filename = file.name || "";
     const type = file.type || "";
     const bytes = await file.arrayBuffer();
+    const uint8Array = new Uint8Array(bytes);
     const buffer = Buffer.from(bytes);
 
     let extractedText = "";
 
     if (filename.toLowerCase().endsWith(".pdf") || type === "application/pdf") {
-      const { text } = await extractText(buffer);
+      const { text } = await extractText(uint8Array);
       extractedText = Array.isArray(text) ? text.join("\n\n") : (text || "");
     } else if (
       filename.toLowerCase().endsWith(".docx") ||
