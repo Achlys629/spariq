@@ -36,7 +36,7 @@ SparIQ lets you pick a scenario, describe the actual person you're going to face
 
 ## The AI Feature
 
-SparIQ's core AI feature is the **adversarial conversation engine** — an AI persona, per scenario, that is deliberately instructed *not* to be helpful or agreeable, but to behave like a real, skeptical counterpart. A second AI feature, the **debrief engine**, evaluates the full conversation afterward using a structured rubric.
+SparIQ's core AI feature is the **BUILT TO CHALLENGE YOU** — an AI persona, per scenario, that is deliberately instructed *not* to be helpful or agreeable, but to behave like a real, skeptical counterpart. A second AI feature, the **debrief engine**, evaluates the full conversation afterward using a structured rubric.
 
 Both use **Claude Sonnet 5** via the Anthropic API.
 
@@ -198,6 +198,13 @@ Open [http://localhost:3000](http://localhost:3000).
 ```bash
 npm run build
 ```
+
+## Known Limitations
+
+- Voice input requires microphone permission at both the browser and device level. If it doesn't prompt or respond, check that microphone access is allowed for your browser in your phone/computer's system settings, not just the browser's own site permissions. Text input is always available as a full alternative.
+- Voice input may not work if the site is opened through an in-app browser (e.g. a link opened directly inside WhatsApp, Instagram, or similar apps) — some in-app browsers restrict microphone access regardless of site permissions. Opening the live URL directly in Chrome, Safari, or another standalone browser resolves this.
+- Session history and settings are tied to an anonymous per-browser ID, not an account — switching browsers or devices will not carry over past sessions.
+- Conversation transcripts are not persisted across a page refresh mid-session — only saved session settings (personality, difficulty, uploaded context) are restored after a refresh.
 
 ## Future Scope
 
